@@ -1,19 +1,20 @@
-https://langchain-ai.github.io/langgraph/concepts/assistants/
+[![LangGraph Conceptual](https://img.shields.io/badge/LangGraph-Conceptual-blue?logo=langgraph)](https://langchain-ai.github.io/langgraph/concepts/)
 
+> 원문: https://langchain-ai.github.io/langgraph/concepts/assistants/
 
-## **어시스턴트**
+# Assistants
 
 에이전트를 구축할 때 그래프 논리를 변경하지 않고 빠르게 변경하는 것이 일반적입니다. 예를 들어, 프롬프트나 LLM 선택을 변경하는 것만으로도 에이전트의 동작에 상당한 영향을 미칠 수 있습니다. 어시스턴트는 이러한 유형의 에이전트 구성 변경을 쉽게 만들고 저장할 수 있는 방법을 제공합니다. 이는 최소 두 가지 사용 사례가 있을 수 있습니다:
 - 어시스턴트는 개발자가 실험을 위해 에이전트를 쉽게 수정하고 버전 관리할 수 있는 방법을 제공합니다.
 - 어시스턴트는 LangGraph Studio를 통해 수정할 수 있어, 비즈니스 사용자를 위한 코드 없는 방식으로 에이전트를 구성할 수 있습니다.
 
-어시스턴트는 "구성" 개념을 기반으로 합니다. "구성"은 오픈 소스 LangGraph 라이브러리에서도 사용할 수 있지만, 어시스턴트는 LangGraph 플랫폼에만 존재합니다. 이는 어시스턴트가 배포된 그래프와 긴밀하게 연결되어 있기 때문에 그래프를 배포할 때만 사용할 수 있습니다.
+어시스턴트는 "Configuration" 개념을 기반으로 합니다. "Configuration"은 오픈 소스 LangGraph 라이브러리에서도 사용할 수 있지만, 어시스턴트는 LangGraph 플랫폼에만 존재합니다. 이는 어시스턴트가 배포된 그래프와 긴밀하게 연결되어 있기 때문에 그래프를 배포할 때만 사용할 수 있습니다.
 
-**어시스턴트 구성**
+## 구성(Configuring Assistants)
 
 실제로, 어시스턴트는 특정 구성을 가진 그래프의 인스턴스일 뿐입니다. 따라서 여러 어시스턴트는 동일한 그래프를 참조할 수 있지만, 프롬프트, 모델 및 기타 그래프 구성 옵션과 같은 다른 구성을 포함할 수 있습니다. LangGraph Cloud API는 어시스턴트를 생성하고 관리하기 위한 여러 엔드포인트를 제공합니다. 어시스턴트를 생성하는 방법에 대한 자세한 내용은 API 참조와 [이 방법](#)을 참조하세요.
 
-**어시스턴트 버전 관리**
+## 버전 관리(Versioning Assistants)
 
 어시스턴트를 생성한 후에는 구성 변경 사항을 추적하기 위해 저장하고 버전 관리할 수 있습니다. 이를 세 가지 수준에서 생각할 수 있습니다:
 1. 그래프는 일반 에이전트 응용 프로그램 논리를 설정합니다.

@@ -8,6 +8,7 @@
 * [How to define input/output schema for your graph](https://langchain-ai.github.io/langgraph/how-tos/input_output_schema/)
 * [How to pass private state between nodes](https://langchain-ai.github.io/langgraph/how-tos/pass_private_state/)
 * [ChatModels](https://python.langchain.com/docs/concepts/chat_models/)
+* [Short/Long-term memory](https://blog.langchain.dev/launching-long-term-memory-support-in-langgraph/)
 
 ## Reference
 * [Branches for parallel node execution](https://sean-j.tistory.com/entry/LangGraph-Branches-for-parallel-node-execution)

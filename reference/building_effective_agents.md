@@ -1,4 +1,6 @@
-https://www.anthropic.com/research/building-effective-agents
+[![Anthropic Research](https://img.shields.io/badge/Anthroopic-Research-purple?logo=anthropic)](https://www.anthropic.com/research)
+
+> 원문: https://www.anthropic.com/research/building-effective-agents
 
 **효과적인 에이전트 구축**
 
