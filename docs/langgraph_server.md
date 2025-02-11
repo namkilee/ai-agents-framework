@@ -1,13 +1,16 @@
-[![LangGraph Conceptual](https://img.shields.io/badge/LangGraph-Conceptual-blue?logo=langgraph)](https://langgraph.ai)
+[![LangGraph Conceptual](https://img.shields.io/badge/LangGraph-Conceptual-blue?logo=langgraph)](https://langchain-ai.github.io/langgraph/concepts/langgraph_server/)
 
-> 원문: https://langchain-ai.github.io/langgraph/concepts/langgraph_server/
 
 # LangGraph Server 
 
+
 ## Overview
-LangGraph Server는 에이전트 기반 애플리케이션을 생성하고 관리하는 API를 제공합니다. 이 API는 특정 작업을 위해 구성된 에이전트(configured agents)인 [어시스턴트(assistants)](./assistant.md) 기반으로 만들어지며, 내장된 [지속성(persistence)](./persistence.md)과 **작업 대기열(task queue)** 을 포함합니다. 이 다용도 API는 백그라운드 처리부터 실시간 상호작용에 이르는 다양한 에이전트 애플리케이션 사용 사례를 지원합니다.
+
+LangGraph Server는 에이전트 기반 애플리케이션을 생성하고 관리하는 API를 제공합니다. 이 API는 특정 작업을 위해 구성된 에이전트(configured agents)인 [assistants](./assistant.md) 기반으로 만들어지며, 내장된 [persistence](./persistence.md)와 **작업 대기열(task queue)** 을 포함합니다. 이 다용도 API는 백그라운드 처리부터 실시간 상호작용에 이르는 다양한 에이전트 애플리케이션 사용 사례를 지원합니다.
+
 
 ## Key Features
+
 LangGraph 플랫폼은 에이전트 배포를 위한 검증된 방법론과 도구를 제공하여(incorporates best practices), 사용자가 에이전트 로직 개발에 집중할 수 있도록 지원합니다
 
 - **Streaming endpoints**: [다양한 스트리밍 모드](./streaming.md)를 지원하는 엔드포인트입니다. 특히, 스트림 이벤트 간에 몇 분씩 간격이 생길 수 있는 장시간 실행되는 에이전트에서도 문제없이 작동하도록 설계되었습니다.
@@ -34,10 +37,14 @@ LangGraph 플랫폼은 에이전트 배포를 위한 검증된 방법론과 도�
 
 - **Monitoring**: LangGraph Server는 LangSmith monitoring platform과 원활하게 통합되어, 애플리케이션의 성능과 상태에 대한 실시간 인사이트를 제공합니다.
 
+
 ## What are you deploying?
+
 LangGraph Server를 배포할 때 <span style="color: red;">**하나 이상의 그래프, 지속성을 위한 데이터베이스 및 작업 대기열**</span>을 배포합니다.
 
+
 ### Graph
+
 LangGraph Server로 그래프를 배포할 때 [Assistant](./assistant.md)의 "청사진(blueprint)"을 배포합니다.
 
 [Assistant](./assistant.md)는 특정 configuration setting과 결합된 그래프입니다. 동일한 그래프를 기반으로 다양한 용도를 위해 각각 다른 설정을 가진 여러 어시스턴트를 생성할 수 있습니다.
@@ -50,42 +57,59 @@ LangGraph Server API를 통해 어시스턴트와 상호작용할 수 있습니�
 > 
 > 종종 그래프를 에이전트를 구현하는 도구로 생각하지만, 그래프가 반드시 에이전트를 구현해야 하는 것은 아닙니다. 예를 들어, 그래프는 단순한 챗봇을 구현할 수 있으며, 이는 단지 대화만 지원하고 애플리케이션의 제어 흐름에 영향을 미치지 않습니다. 실제로, 애플리케이션이 더 복잡해짐에 따라, 그래프는 여러 에이전트가 협력하여 작동하는 더 복잡한 흐름을 구현하는 경우가 많습니다.
 
+
 ### Persistence and Task Queue
+
 LangGraph 서버는 지속성을 위한 데이터베이스와 작업 대기열을 활용합니다. 현재 LangGraph 서버의 데이터베이스로는 Postgres만 지원되며, 작업 대기열로는 Redis를 지원합니다. LangGraph 클라우드를 사용하여 배포하는 경우, 이러한 구성 요소는 자동으로 관리됩니다. LangGraph 서버를 자체 인프라에 배포하는 경우, 이러한 구성 요소를 직접 설정하고 관리해야 합니다. 배포 옵션 가이드를 검토하여 이러한 구성 요소가 어떻게 설정되고 관리되는지에 대한 자세한 내용을 확인하세요.
 
+
 ## Application Structure
+
 LangGraph 서버 애플리케이션을 배포하려면 배포할 그래프와 종속성 및 환경 변수와 같은 관련 구성 설정을 지정해야 합니다. 애플리케이션 구조 가이드를 읽어 LangGraph 애플리케이션을 배포하는 방법을 학습하세요.
 
+
 ## LangGraph Server API
+
 LangGraph 서버 API를 사용하면 어시스턴트, 스레드, 실행, 크론 작업 등을 생성하고 관리할 수 있습니다. LangGraph 클라우드 API 참조는 API 엔드포인트 및 데이터 모델에 대한 자세한 정보를 제공합니다.
 
+
 ### Assistants
+
 어시스턴트는 특정 그래프와 해당 그래프에 대한 구성 설정을 포함하는 그래프입니다. [에이전트](./agent_architectures.md)를 구축할 때 그래프 논리를 변경하지 않고도 빠르게 변경하는 것이 일반적입니다. 예를 들어, 프롬프트 또는 LLM 선택을 변경하는 것만으로도 에이전트의 동작에 상당한 영향을 미칠 수 있습니다. 어시스턴트는 이러한 유형의 에이전트 구성 변경을 쉽게 만들고 저장할 수 있는 방법을 제공합니다.
 
+
 ### Threads
+
 스레드는 실행 시퀀스의 누적 상태를 포함합니다. 스레드에서 실행이 수행되면 어시스턴트의 기본 그래프 상태가 스레드에 지속됩니다. 스레드의 현재 및 이전 상태를 검색할 수 있습니다. 상태를 지속하려면 실행 전에 스레드를 생성해야 합니다. 특정 시점에서 스레드의 상태를 체크포인트라고 합니다. 체크포인트는 나중에 스레드의 상태를 복원하는 데 사용할 수 있습니다. 스레드 및 체크포인트에 대한 자세한 내용은 LangGraph 개념 가이드의 이 섹션을 참조하세요.
 
+
 ### Runs
+
 실행은 어시스턴트의 호출입니다. 각 실행에는 고유한 입력, 구성 및 메타데이터가 있을 수 있으며, 이는 기본 그래프의 실행 및 출력에 영향을 미칠 수 있습니다. 실행은 선택적으로 스레드에서 수행될 수 있습니다. LangGraph 클라우드 API는 실행 생성 및 관리를 위한 여러 엔드포인트를 제공합니다. 자세한 내용은 API 참조를 참조하세요.
 
+
 ### Store
+
 스토어는 모든 스레드에서 사용할 수 있는 지속적인 키-값 저장소를 관리하기 위한 API입니다. 스토어는 LangGraph 애플리케이션에서 메모리를 구현하는 데 유용합니다.
 
+
 ### Cron Jobs
+
 어시스턴트를 일정에 따라 실행하는 것이 유용한 상황이 많이 있습니다. 예를 들어, 일일 뉴스 요약 이메일을 보내는 어시스턴트를 매일 8:00 PM에 실행하려고 한다고 가정해 보세요. LangGraph 클라우드는 사용자 정의 일정에 따라 실행되는 크론 작업을 지원합니다. 사용자는 일정, 어시스턴트 및 입력을 지정합니다. 이후, 지정된 일정에 따라 서버는 다음 작업을 수행합니다:
 - 지정된 어시스턴트를 사용하여 새 스레드 생성
 - 지정된 입력을 해당 스레드로 전송
 
 참고: 이는 매번 동일한 입력을 스레드로 보냅니다. 크론 작업 생성 방법에 대한 자세한 내용은 방법 가이드를 참조하세요. LangGraph 클라우드 API는 크론 작업 생성 및 관리를 위한 여러 엔드포인트를 제공합니다. 자세한 내용은 API 참조를 참조하세요.
 
+
 ### Webhooks
+
 웹훅은 LangGraph 클라우드 애플리케이션에서 외부 서비스로의 이벤트 기반 통신을 가능하게 합니다. 예를 들어, LangGraph 클라우드로 API 호출이 완료된 후 별도의 서비스에 업데이트를 발행하고 싶을 수 있습니다. 많은 LangGraph 클라우드 엔드포인트는 웹훅 매개변수를 수락합니다. 이 매개변수가 POST 요청을 수락할 수 있는 엔드포인트에 의해 지정된 경우, LangGraph 클라우드는 실행 완료 시 요청을 보냅니다. 관련 방법 가이드를 참조하세요.
 
+
 ## Related
+
 - LangGraph 애플리케이션 구조 가이드에서는 LangGraph 애플리케이션을 배포하는 방법을 설명합니다.
 - LangGraph 플랫폼에 대한 방법 가이드.
 - LangGraph 클라우드 API 참조는 API 엔드포인트 및 데이터 모델에 대한 자세한 정보를 제공합니다.
 
----
-
-필요한 다른 부분이나 추가 정보가 있으면 언제든지 말씀해 주세요! 😊
