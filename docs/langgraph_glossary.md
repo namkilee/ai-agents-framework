@@ -1,4 +1,10 @@
-## **그래프(Graphs)**
+[![LangGraph Conceptual](https://img.shields.io/badge/LangGraph-Conceptual-blue?logo=langgraph)](https://langchain-ai.github.io/langgraph/concepts/low_level/)
+
+
+# LangGraph Glossary
+
+
+## Graphs
 
 LangGraph는 에이전트 워크플로우를 **그래프** 형태로 모델링합니다. 이를 정의하기 위해 세 가지 주요 구성 요소를 사용합니다:
 
@@ -44,7 +50,7 @@ graph = graph_builder.compile(...)
 그래프를 사용하기 전에 반드시 그래프를 컴파일해야 합니다.
 
 
-## **상태(State)**
+## State
 
 그래프를 정의할 때 처음 해야 할 일은 그래프의 상태(State)를 정의하는 것입니다. 상태는 그래프의 스키마와 상태에 대한 업데이트를 적용하는 방법을 지정하는 리듀서 함수로 구성됩니다. 상태의 스키마는 그래프의 모든 노드와 엣지의 입력 스키마가 되며, `TypedDict` 또는 Pydantic 모델일 수 있습니다. 모든 노드는 상태에 대한 업데이트를 발생시키며, 이 업데이트는 지정된 리듀서 함수를 사용하여 적용됩니다.
 
