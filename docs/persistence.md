@@ -1,9 +1,7 @@
-[![LangGraph Conceptual](https://img.shields.io/badge/LangGraph-Conceptual-blue?logo=langgraph)](https://langchain-ai.github.io/langgraph/concepts/)
-
-
-> 원문: https://langchain-ai.github.io/langgraph/concepts/persistence/
-
 <style>code { white-space: pre; overflow-x: auto; }</style>
+
+[![LangGraph Conceptual](https://img.shields.io/badge/LangGraph-Conceptual-blue?logo=langgraph)](https://langchain-ai.github.io/langgraph/concepts/persistence/)
+
 
 # Persistence
 
