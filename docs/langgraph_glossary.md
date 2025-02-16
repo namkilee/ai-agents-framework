@@ -237,7 +237,7 @@ builder.add_node(my_node)
 ```
 
 
-### `START` 노드
+### `START` Node
 
 `START` 노드는 사용자 입력을 그래프에 보내는 특수 노드입니다. 이 노드를 참조하는 주요 목적은 어떤 노드가 가장 먼저 호출되어야 하는지를 결정하는 데 있습니다.
 
@@ -248,9 +248,10 @@ graph.add_edge(START, "node_a")
 ```
 API Reference: [START](https://langchain-ai.github.io/langgraph/reference/constants/#langgraph.constants.START)
 
-### END 노드
 
-END 노드는 종료 노드를 나타내는 특수 노드입니다. 이 노드는 특정 엣지가 완료된 후 더 이상 수행할 작업이 없음을 표시하고자 할 때 참조됩니다.
+### `END` Node
+
+`END` 노드는 종료 노드를 나타내는 특수 노드입니다. 이 노드는 특정 엣지가 완료된 후 더 이상 수행할 작업이 없음을 표시하고자 할 때 참조됩니다.
 
 ```python
 from langgraph.graph import END
@@ -259,3 +260,73 @@ graph.add_edge("node_a", END)
 ```
 
 
+## Edges
+
+엣지는 로직이 어떻게 라우팅되고 그래프가 언제 중지될지를 결정하는 요소를 정의합니다. 이는 에이전트가 작동하는 방식과 다양한 노드간 통신하는 방식을 크게 좌우하는 중요한 요소입니다. 몇 가지 주요 엣지 유형이 있습니다:
+
+- Normal Edges: 하나의 노드에서 다음 노드로 직접 이동합니다.
+- Conditional Edges: 다음으로 갈 노드(들)를 결정하기 위해 함수를 호출합니다.
+- Entry Point: 사용자 입력이 도착했을 때 가장 먼저 호출할 노드를 지정합니다.
+- Conditional Entry Point: 사용자 입력이 도착했을 때 어떤 노드(들)를 먼저 호출할지를 결정하기 위해 함수를 호출합니다.
+
+하나의 노드는 여러 개의 출력 엣지를 가질 수 있습니다. 만약 하나의 노드에 여러 개의 출력 엣지가 있다면, 그 노드들은 모두 다음 슈퍼 스텝의 일환으로 병렬로 실행됩니다.
+
+
+### Normal Edges
+
+항상 노드 A에서 노드 B로 이동하고 싶다면, add_edge 메서드를 사용할 수 있습니다.
+
+```python
+graph.add_edge("node_a", "node_b")
+```
+
+
+### Conditional Edges
+
+1개 이상의 엣지로 선택적으로 라우팅하거나, 종료하고 싶다면 `add_conditional_edges` 메서드를 사용할 수 있습니다. 이 메서드는 노드의 이름과 해당 노드가 실행된 후 호출할 "라우팅 함수(routing function)"를 받습니다.
+
+```python
+graph.add_conditional_edges("node_a", routing_function)
+```
+
+노드와 마찬가지로, `routing_function`은 그래프의 현재 상태를 입력으로 받아 값을 반환합니다.
+
+기본적으로, `routing_function`의 반환값은 상태를 전달할 다음 노드(또는 노드 리스트)의 이름입니다. 반환된 모든 노드는 다음 슈퍼스텝(superstep)의 일부로 병렬 실행됩니다.
+
+라우팅 함수의 출력값을 다음 노드의 이름에 매핑하는 딕셔너리를 선택적으로 제공할 수도 있습니다.
+
+```python
+graph.add_conditional_edges("node_a", routing_function, {True: "node_b", False: "node_c"})
+```
+
+> **Tip** \
+> 상태 업데이트와 라우팅을 단일 함수로 결합하려면 조건부 엣지 대신 [`Command`](#command)를 사용하세요.
+
+
+### Entry Point
+
+진입점은 그래프가 시작될 때 처음 실행되는 노드(들)입니다. 가상의 `START` 노드에서 첫 번째로 실행할 노드로의 `add_edge` 메서드를 사용하여 그래프의 진입 지점을 지정할 수 있습니다.
+
+```python
+from langgraph.graph import START
+
+graph.add_edge(START, "node_a")
+```
+
+
+### Conditional Entry Point
+
+조건부 진입점은 사용자 정의 로직에 따라 다른 노드에서 시작할 수 있게 합니다. 이를 위해 가상의 `START` 노드에서 `add_conditional_edges`를 사용할 수 있습니다.
+
+```python
+from langgraph.graph import START
+
+graph.add_conditional_edges(START, routing_function)
+```
+
+라우팅 함수의 출력값을 다음 노드의 이름에 매핑하는 딕셔너리를 선택적으로 제공할 수도 있습니다.
+
+
+```python
+graph.add_conditional_edges(START, routing_function, {True: "node_b", False: "node_c"})
+```
