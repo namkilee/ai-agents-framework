@@ -46,7 +46,7 @@ LangGraph 플랫폼의 몇 가지 다른 배포 옵션은 [이 가이드](./depl
 
 ### High Level
 
-- [Why LangGraph Platform?](./why_langgraph_platform.md): LangGraph 플랫폼은 LangGraph 애플리케이션을 배포하고 관리하기 위한 명확한 방식(opinionated way)을 제공합니다. 이 가이드는 LangGraph 플랫폼의 주요 기능과 개념에 대한 개요를 제공합니다.
+- [Why LangGraph Platform?](./langgraph_platform.md): LangGraph 플랫폼은 LangGraph 애플리케이션을 배포하고 관리하기 위한 명확한 방식(opinionated way)을 제공합니다. 이 가이드는 LangGraph 플랫폼의 주요 기능과 개념에 대한 개요를 제공합니다.
 - [Deployment Options](./deployment_options.md): LangGraph 플랫폼은 네 가지 배포 옵션을 제공합니다: Self-Hosted Lite, Self-Hosted Enterprise, bring your own cloud(BYOC), Cloud SaaS. 여기에서는 이러한 옵션들 간의 차이점과 각 플랜에서 사용 가능한 옵션을 설명합니다.
 - Plan: LangGraph 플랫폼은 세 가지 다른 플랜을 제공합니다: Developer, Plus, Enterprise. 이 가이드는 이러한 옵션들 간의 차이점과 각 플랜에서 사용할 수 있는 배포 옵션, 가입 방법을 설명합니다.
 - Template Applications: LangGraph를 사용하여 애플리케이션을 신속하게 구축하는 데 도움이 되는 참고 애플리케이션입니다.

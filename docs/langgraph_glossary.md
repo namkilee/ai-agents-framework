@@ -25,19 +25,19 @@ LangGraph는 에이전트 워크플로우를 **그래프** 형태로 모델링�
 
 LangGraph는 Google Pregel 시스템에서 영감을 받아 메시지 전달 방식을 사용하여 그래프 실행을 관리합니다. 각 노드는 작업 완료 후 메시지를 엣지를 통해 다음 노드로 전달하며, 이 과정이 반복됩니다. 실행은 **슈퍼스텝(Super-step)** 단위로 진행됩니다.
 
-### **슈퍼스텝(Super-step)**  
+**슈퍼스텝(Super-step)**  
 - 그래프 노드의 단일 반복(iteration)을 나타냅니다.  
 - 병렬로 실행되는 노드는 동일한 슈퍼스텝에 속하며, 순차적으로 실행되는 노드는 별도의 슈퍼스텝에 속합니다.  
 - 모든 노드는 초기에는 비활성 상태이며, 메시지를 수신하면 활성화되어 작업을 수행하고 응답을 반환합니다.  
 - 모든 노드가 비활성화되고 전송 중인 메시지가 없으면 그래프 실행이 종료됩니다.
 
 
-### **StateGraph**
+### StateGraph
 
 `StateGraph` 클래스는 그래프를 정의하는 주요 클래스입니다. 사용자 정의 `State` 객체를 매개변수로 사용하여 그래프를 구성합니다.
 
 
-**그래프 컴파일하기**
+### Compiling your graph
 
 그래프를 빌드하려면 먼저 상태(state)를 정의하고, 그 다음 노드와 엣지를 추가한 후 컴파일합니다. 그렇다면 그래프를 컴파일하는 것이 무엇이며 왜 필요한 것일까요?
 
@@ -54,17 +54,14 @@ graph = graph_builder.compile(...)
 
 그래프를 정의할 때 처음 해야 할 일은 그래프의 상태(State)를 정의하는 것입니다. 상태는 그래프의 스키마와 상태에 대한 업데이트를 적용하는 방법을 지정하는 리듀서 함수로 구성됩니다. 상태의 스키마는 그래프의 모든 노드와 엣지의 입력 스키마가 되며, `TypedDict` 또는 Pydantic 모델일 수 있습니다. 모든 노드는 상태에 대한 업데이트를 발생시키며, 이 업데이트는 지정된 리듀서 함수를 사용하여 적용됩니다.
 
-물론입니다! 다음은 요청하신 "Schema"와 "Multiple schemas" 섹션의 번역입니다:
 
----
-
-**스키마**
+### Schema
 
 그래프의 스키마를 지정하는 주된 문서화된 방법은 `TypedDict`를 사용하는 것입니다. 그러나 우리는 기본값과 추가 데이터 검증을 추가하기 위해 Pydantic `BaseModel`을 그래프 상태로 사용하는 것도 지원합니다.
 
 기본적으로 그래프는 동일한 입력 및 출력 스키마를 가집니다. 이를 변경하려면 명시적인 입력 및 출력 스키마를 직접 지정할 수도 있습니다. 이는 많은 키가 있고 일부는 명시적으로 입력용이고 다른 일부는 출력용인 경우에 유용합니다. 사용 방법은 [이 노트북](#)을 참조하세요.
 
-**여러 스키마**
+**Multiple schema**
 
 일반적으로 모든 그래프 노드는 단일 스키마로 통신합니다. 이는 동일한 상태 채널을 읽고 쓴다는 것을 의미합니다. 그러나 더 많은 제어가 필요한 경우가 있습니다:
 
@@ -124,11 +121,11 @@ graph.invoke({"user_input": "My"})
 2. 우리는 `InputState`와 `OutputState`를 사용하여 그래프를 초기화합니다. 그렇다면 `node_2`에서 `PrivateState`에 어떻게 기록할 수 있을까요? 그래프가 초기화 시 전달되지 않은 스키마에 어떻게 접근할 수 있을까요? 이는 노드가 상태 스키마 정의가 존재하는 한 추가 상태 채널을 선언할 수 있기 때문입니다. 이 경우, `PrivateState` 스키마가 정의되어 있으므로 그래프에 새로운 상태 채널 `bar`를 추가하고 기록할 수 있습니다.
 
 
-## **리듀서**
+### Reducers
 
 리듀서는 노드에서 상태로 업데이트가 적용되는 방식을 이해하는 데 중요합니다. 상태의 각 키는 고유한 리듀서 함수를 가집니다. 명시적으로 리듀서 함수가 지정되지 않은 경우, 해당 키에 대한 모든 업데이트가 덮어쓰는 것으로 간주됩니다. 리듀서에는 몇 가지 유형이 있으며, 기본 리듀서 유형부터 시작합니다:
 
-**기본 리듀서**
+**Default Reducer**
 
 다음 두 예시는 기본 리듀서를 사용하는 방법을 보여줍니다:
 
@@ -156,19 +153,20 @@ class State(TypedDict):
 
 이 예시에서는 Annotated 타입을 사용하여 두 번째 키(bar)에 대한 리듀서 함수(operator.add)를 지정했습니다. 첫 번째 키는 변경되지 않습니다. 그래프의 입력이 `{"foo": 1, "bar": ["hi"]}`라고 가정해봅시다. 첫 번째 노드가 `{"foo": 2}`를 반환한다고 가정하면, 이는 상태에 대한 업데이트로 처리됩니다. 노드가 전체 상태 스키마를 반환할 필요는 없으며, 업데이트만 반환합니다. 이 업데이트를 적용한 후 상태는 `{"foo": 2, "bar": ["hi"]}`가 됩니다. 두 번째 노드가 `{"bar": ["bye"]}`를 반환하면 상태는 `{"foo": 2, "bar": ["hi", "bye"]}`가 됩니다. 여기서 bar 키는 두 리스트를 더하여 업데이트됩니다.
 
-### 메시지와 함께 작업하기
 
-**왜 메시지를 사용하나요?**
+### Working with Messages in Graph State
+
+**Why use messages?**
 
 대부분의 최신 LLM 제공업체는 입력으로 메시지 목록을 수락하는 채팅 모델 인터페이스를 제공합니다. 특히 LangChain의 `ChatModel`은 입력으로 메시지 객체의 목록을 수락합니다. 이러한 메시지는 `HumanMessage`(사용자 입력)나 `AIMessage`(LLM 응답)와 같은 다양한 형태로 제공됩니다. 메시지 객체에 대한 자세한 내용은 [이 개념 가이드](https://langchain-ai.github.io/langgraph/concepts/low_level/#default-reducer)를 참조하세요.
 
-**그래프에서 메시지 사용하기**
+**Using Messages in your Graph**
 
 많은 경우, 이전 대화 기록을 그래프 상태에 메시지 목록으로 저장하는 것이 유용합니다. 이를 위해, 메시지 객체 목록을 저장하는 키(채널)를 그래프 상태에 추가하고 리듀서 함수로 주석을 달 수 있습니다(아래 예시의 `messages` 키 참조). 리듀서 함수는 상태 업데이트마다 상태에서 메시지 객체 목록을 업데이트하는 방법을 그래프에 알려주는 데 중요합니다. 리듀서를 지정하지 않으면, 모든 상태 업데이트는 마지막에 제공된 값으로 메시지 목록을 덮어씁니다. 기존 목록에 메시지를 단순히 추가하려면 `operator.add`를 리듀서로 사용할 수 있습니다.
 
 그러나 그래프 상태에서 수동으로 메시지를 업데이트하고 싶을 수도 있습니다(예: 인간이 개입하는 경우). `operator.add`를 사용하면 수동 상태 업데이트가 기존 메시지 목록에 추가되기 때문에 기존 메시지를 업데이트하는 대신 새로운 메시지가 추가됩니다. 이를 피하기 위해, 메시지 ID를 추적하고 기존 메시지를 덮어쓸 수 있는 리듀서가 필요합니다. 이를 달성하기 위해, 미리 정의된 `add_messages` 함수를 사용할 수 있습니다. 새로운 메시지의 경우 기존 목록에 단순히 추가되지만, 기존 메시지에 대한 업데이트도 올바르게 처리합니다.
 
-**직렬화**
+**Serialization**
 
 메시지 ID를 추적하는 것 외에도, `add_messages` 함수는 메시지 채널에서 상태 업데이트를 받을 때마다 메시지를 LangChain 메시지 객체로 역직렬화하려고 시도합니다. LangChain의 직렬화/역직렬화에 대한 자세한 내용은 [여기](https://langchain-ai.github.io/langgraph/concepts/low_level/#default-reducer)에서 확인할 수 있습니다. 이를 통해 그래프 입력 / 상태 업데이트를 다음과 같은 형식으로 보낼 수 있습니다:
 
@@ -203,4 +201,61 @@ from langgraph.graph import MessagesState
 class State(MessagesState):
     documents: list[str]
 ```
+
+
+## Nodes
+
+LangGraph에서 노드는 일반적으로 Python 함수(동기 또는 비동기)이며, 첫 번째 매개변수는 [state](#state)이고, 두 번째 매개변수(optional)는 "config"로, `thread_id`와 같은 선택적 [configurable parameter](#configuration)를 포함합니다.
+
+`NetworkX`와 유사하게, `add_node` 메서드를 사용하여 노드를 그래프에 추가할 수 있습니다:
+
+```python
+from langchain_core.runnables import RunnableConfig
+from langgraph.graph import StateGraph
+
+builder = StateGraph(dict)
+
+def my_node(state: dict, config: RunnableConfig):
+    print("In node: ", config["configurable"]["user_id"])
+    return {"results": f"Hello, {state['input']}!"}
+
+# 두 번째 인수는 선택 사항입니다
+def my_other_node(state: dict):
+    return state
+
+builder.add_node("my_node", my_node)
+builder.add_node("other_node", my_other_node)
+```
+API Reference: [RunnableConfig](https://python.langchain.com/api_reference/core/runnables/langchain_core.runnables.config.RunnableConfig.html) | [StateGraph](https://langchain-ai.github.io/langgraph/reference/graphs/#langgraph.graph.state.StateGraph)
+
+백그라운드에서는 함수가 RunnableLambda로 변환되며, 이를 통해 함수에 배치 처리 및 비동기 지원이 추가되고, 네이티브 추적(tracing) 및 디버깅 기능도 제공됩니다.
+
+그래프에 노드를 추가할 때 이름을 지정하지 않으면, 해당 노드는 함수 이름과 동일한 기본 이름이 부여됩니다.
+```python
+builder.add_node(my_node)
+# 이후 `"my_node"`를 사용하여 해당 노드와 연결된 엣지를 생성할 수 있습니다.
+```
+
+
+### `START` 노드
+
+`START` 노드는 사용자 입력을 그래프에 보내는 특수 노드입니다. 이 노드를 참조하는 주요 목적은 어떤 노드가 가장 먼저 호출되어야 하는지를 결정하는 데 있습니다.
+
+```python
+from langgraph.graph import START
+
+graph.add_edge(START, "node_a")
+```
+API Reference: [START](https://langchain-ai.github.io/langgraph/reference/constants/#langgraph.constants.START)
+
+### END 노드
+
+END 노드는 종료 노드를 나타내는 특수 노드입니다. 이 노드는 특정 엣지가 완료된 후 더 이상 수행할 작업이 없음을 표시하고자 할 때 참조됩니다.
+
+```python
+from langgraph.graph import END
+
+graph.add_edge("node_a", END)
+```
+
 

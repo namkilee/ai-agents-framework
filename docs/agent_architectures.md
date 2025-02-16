@@ -1,6 +1,5 @@
-[![LangGraph Conceptual](https://img.shields.io/badge/LangGraph-Conceptual-blue?logo=langgraph)](https://langchain-ai.github.io/langgraph/concepts/)
+[![LangGraph Conceptual](https://img.shields.io/badge/LangGraph-Conceptual-blue?logo=langgraph)](https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/)
 
-> 원문: https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/
 
 # Agent architectures
 
