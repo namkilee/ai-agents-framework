@@ -1,3 +1,5 @@
+<style>code { white-space: pre; overflow-x: auto; }</style>
+
 [![LangGraph Conceptual](https://img.shields.io/badge/LangGraph-Conceptual-blue?logo=langgraph)](https://langchain-ai.github.io/langgraph/concepts/low_level/)
 
 
@@ -299,7 +301,7 @@ graph.add_conditional_edges("node_a", routing_function)
 graph.add_conditional_edges("node_a", routing_function, {True: "node_b", False: "node_c"})
 ```
 
-> **Tip** \
+> **Tip**  
 > 상태 업데이트와 라우팅을 단일 함수로 결합하려면 조건부 엣지 대신 [`Command`](#command)를 사용하세요.
 
 
@@ -330,3 +332,114 @@ graph.add_conditional_edges(START, routing_function)
 ```python
 graph.add_conditional_edges(START, routing_function, {True: "node_b", False: "node_c"})
 ```
+
+
+## `Send`
+
+기본적으로, 노드와 엣지는 미리 정의되어 잇고 같은 state를 가지고 작동합니다. 그러나 경우에 따라 정확한 엣지가 사전에 알려지지 않거나, 동시에 여러 버전의 State가 존재해야 할 수 있습니다. 이러한 상황의 일반적인 예로 맵-리듀스(`map-reduce`) 디자인 패턴이 있습니다. 이 패턴에서는 첫 번째 노드가 객체 목록을 생성하고, 생성된 각 객체에 대해 다른 노드를 적용하고자 할 수 있습니다. 이때 객체의 개수(즉, 엣지의 수)는 사전에 알 수 없으며, 하위 노드로 전달되는 입력 상태는 각 객체마다 달라야 합니다.
+
+이 디자인 패턴을 지원하기 위해, LangGraph는 조건부 엣지에서 [`Send`](https://langchain-ai.github.io/langgraph/reference/types/#langgraph.types.Send) 객체를 반환하는 기능을 제공합니다. Send는 두 개의 인수를 받습니다: 첫 번째는 노드의 이름이고, 두 번째는 그 노드에 전달할 state입니다.
+
+```python
+...
+class OverallState(TypedDict):
+    subjects: list[str]
+    jokes: Annotated[list[str], operator.add]
+
+...
+
+def continue_to_jokes(state: OverallState):
+    return [Send("generate_joke", {"subject": s}) for s in state['subjects']]
+
+builder = StateGraph(OverallState)
+builder.add_node("generate_joke", lambda state: {"jokes": [f"Joke about {state['subject']}"]})
+builder.add_conditional_edges(START, continue_to_jokes)
+builder.add_edge("generate_joke", END)
+graph = builder.compile()
+# Invoking with two subjects results in a generated joke for each
+graph.invoke({"subjects": ["cats", "dogs"]})
+# {'subjects': ['cats', 'dogs'], 'jokes': ['Joke about cats', 'Joke about dogs']}
+```
+
+
+## `Command`
+
+LangGraph에서는 제어 흐름(엣지)과 상태 업데이트(노드)를 결합하는 것이 유용할 수 있습니다. 예를 들어, 동일한 노드에서 상태를 업데이트하면서 동시에 다음으로 이동할 노드를 결정하고 싶을 때 [`Command`](https://langchain-ai.github.io/langgraph/reference/types/#langgraph.types.Command) 객체를 반환하여 이를 구현할 수 있습니다.
+
+```python
+def my_node(state: State) -> Command[Literal["my_other_node"]]:
+    return Command(
+        # 상태 업데이트
+        update={"foo": "bar"},
+        # 제어 흐름
+        goto="my_other_node"
+    )
+```
+
+`Command`를 사용하면 [conditional edges](#conditional-edges)와 동일하게 동적 제어 흐름을 구현할 수도 있습니다.
+
+```python
+def my_node(state: State) -> Command[Literal["my_other_node"]]:
+    if state["foo"] == "bar":
+        return Command(update={"foo": "baz"}, goto="my_other_node")
+```
+
+> **Important**  
+> 노드 함수에서 `Command`를 반환할 때는 `Command[Literal["my_other_node"]]`와 같은 리턴 타입 주석을 추가해야 합니다. 이는 그래프 렌더링을 위해 필요하며 `my_node`가 `my_other_node`로 이동할 수 있음을 LangGraph에 알려줍니다. 
+
+Command 사용 방법에 대한 종합적인 예시는 [이 가이드](../how_to/how_to_combine_control_flow_and_state_updates_with_command.md)를 참조하세요.
+
+
+### When should I use Command instead of conditional edges?
+
+그래프 상태를 업데이트하면서 다른 노드로 라우팅할 필요가 있을 때 Command를 사용하면 좋습니다. [multi-agent handoffs](./multi_agent_systems.md#handoffs)를 구현할 때 다른 에이전트로 라우팅하면서 해당 에이전트에 정보를 전달하는 것이 중요한 경우가 예시입니다.
+
+상태를 업데이트하지 않고 노드 간에 조건부로 라우팅하려면 조건부 엣지를 사용해야 합니다.
+
+
+### Navigating to node in a parent graph
+
+[서브그래프](#subgraphs)를 사용하는 경우 서브그래프 내의 노드에서 다른 서브그래프(즉, 상위 그래프의 다른 노드)로 이동하고 싶을 수 있습니다. 이를 위해 Command에서 graph=Command.PARENT를 지정할 수 있습니다:
+
+```python
+def my_node(state: State) -> Command[Literal["my_other_node"]]:
+    return Command(
+        update={"foo": "bar"},
+        goto="other_subgraph",  # 여기서 `other_subgraph`는 상위 그래프의 노드입니다
+        graph=Command.PARENT
+    )
+```
+
+> **Note**  
+> `graph`를 `Command.PARENT`로 설정하면 가장 가까운 상위 그래프로 이동합니다.
+
+> **Start updates with `Command.PARENT`**  
+> 서브그래프 노드에서 상위 그래프 노드로 상태 업데이트를 보낼 때, 서브그래프와 상위 그래프 상태 스키마에 공유 키가 있다면, 상위 그래프 상태에서 해당 키에 대한 리듀서를 정의해야 합니다. 자세한 예시는 [이 가이드](../how_to/how_to_combine_control_flow_and_state_updates_with_command.md#navigating-to-a-node-in-a-parent-graph)를 참조하십시오.
+
+이 기능은 특히 [multi-agent handoffs](./multi_agent_systems.md#handoffs)를 구현할 때 유용합니다.
+
+
+### Using inside tools
+
+도구 내부에서 그래프 상태를 업데이트하는 것은 일반적인 사례입니다. 예를 들어, 고객 지원 애플리케이션에서는 대화 시작 시 고객의 계정 번호나 ID를 기반으로 고객 정보를 조회하고자 할 수 있습니다. 이 경우 도구에서 그래프 상태를 업데이트하려면 도구에서 `Command(update={"my_custom_key": "foo", "messages": [...]})`를 반환할 수 있습니다:
+
+```python
+@tool
+def lookup_user_info(tool_call_id: Annotated[str, InjectedToolCallId], config: RunnableConfig):
+    """사용자의 질문을 더 잘 도와주기 위해 사용자 정보를 조회하는 데 사용합니다."""
+    user_info = get_user_info(config.get("configurable", {}).get("user_id"))
+    return Command(
+        update={
+            # 상태 키 업데이트
+            "user_info": user_info,
+            # 메시지 기록 업데이트
+            "messages": [ToolMessage("사용자 정보를 성공적으로 조회했습니다", tool_call_id=tool_call_id)]
+        }
+    )
+```
+
+> **Important**  
+> 도구에서 Command를 반환할 때는 메시지 기록에 사용하는 상태 키(예: messages)를 반드시 포함해야 하며, 메시지 리스트에는 반드시 ToolMessage가 포함되어야 합니다. 이는 메시지 기록이 유효하도록 하기 위함입니다(LLM 제공자는 도구 호출 후 AI 메시지에 도구 결과 메시지가 이어져야 합니다).
+
+`Command`를 통해 상태를 업데이트하는 도구를 사용하는 경우, LangGraph에서 제공하는 미리 제작된 ToolNode를 사용하는 것이 좋습니다. 이는 도구가 반환한 Command 객체를 자동으로 처리하고 그래프 상태에 반영합니다. 만약 사용자 정의 노드에서 도구를 호출한다면, 도구가 반환한 Command 객체를 수동으로 처리하여 업데이트해야 합니다.
+
