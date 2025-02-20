@@ -13,7 +13,7 @@ LLM(대형 언어 모델)은 새로운 클래스의 애플리케이션에 지능
 
 <br>
 
-## What LangGraph provids
+## What LangGraph provides
 
 LangGraph는 워크플로우나 에이전트의 기반이 되는 저수준의 인프라를 제공합니다. 프롬프트나 아키텍처를 추상화하지 않으며, 다음 세 가지 주요 이점을 제공합니다:
 
