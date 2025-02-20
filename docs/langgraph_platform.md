@@ -3,6 +3,7 @@
 
 # LangGraph Platform
 
+<br>
 
 ## Overview
 
@@ -19,6 +20,8 @@ LangGraph Platform은 LangGraph 애플리케이션의 개발, 배포, 디버깅 
 ![lg_platform](../asset/lg_platform.png)
 
 LangGraph Platform은 배포 옵션 가이드에서 설명된 몇 가지 다른 배포 옵션을 제공합니다.
+
+<br>
 
 ## Why Use LangGraph Platform?
 

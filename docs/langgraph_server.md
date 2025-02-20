@@ -3,11 +3,13 @@
 
 # LangGraph Server 
 
+<br>
 
 ## Overview
 
 LangGraph Server는 에이전트 기반 애플리케이션을 생성하고 관리하는 API를 제공합니다. 이 API는 특정 작업을 위해 구성된 에이전트(configured agents)인 [assistants](./assistant.md) 기반으로 만들어지며, 내장된 [persistence](./persistence.md)와 **작업 대기열(task queue)** 을 포함합니다. 이 다용도 API는 백그라운드 처리부터 실시간 상호작용에 이르는 다양한 에이전트 애플리케이션 사용 사례를 지원합니다.
 
+<br>
 
 ## Key Features
 
@@ -37,6 +39,7 @@ LangGraph 플랫폼은 에이전트 배포를 위한 검증된 방법론과 도�
 
 - **Monitoring**: LangGraph Server는 LangSmith monitoring platform과 원활하게 통합되어, 애플리케이션의 성능과 상태에 대한 실시간 인사이트를 제공합니다.
 
+<br>
 
 ## What are you deploying?
 
@@ -53,8 +56,7 @@ LangGraph Server로 그래프를 배포할 때 [Assistant](./assistant.md)의 "�
 
 LangGraph Server API를 통해 어시스턴트와 상호작용할 수 있습니다.
 
-> Note
-> 
+> **Note**   
 > 종종 그래프를 에이전트를 구현하는 도구로 생각하지만, 그래프가 반드시 에이전트를 구현해야 하는 것은 아닙니다. 예를 들어, 그래프는 단순한 챗봇을 구현할 수 있으며, 이는 단지 대화만 지원하고 애플리케이션의 제어 흐름에 영향을 미치지 않습니다. 실제로, 애플리케이션이 더 복잡해짐에 따라, 그래프는 여러 에이전트가 협력하여 작동하는 더 복잡한 흐름을 구현하는 경우가 많습니다.
 
 
@@ -68,11 +70,13 @@ LangGraph 클라우드를 사용하여 배포하는 경우, 이러한 구성 요
 
 [배포 옵션 가이드](./deployment_options.md)를 검토하여 이러한 구성 요소가 어떻게 설정되고 관리되는지에 대한 자세한 내용을 확인하세요.
 
+<br>
 
 ## Application Structure
 
 LangGraph Server 애플리케이션을 배포하려면 배포할 그래프와 종속성, 그리고 환경 변수 같은 configuration settings 가 필요합니다. [애플리케이션 구조](./application_structure.md) 가이드를 읽어 LangGraph 애플리케이션을 배포하는 방법을 학습하세요.
 
+<br>
 
 ## LangGraph Server API
 

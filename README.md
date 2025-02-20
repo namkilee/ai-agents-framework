@@ -1,3 +1,5 @@
+<style>code { white-space: pre; overflow-x: auto; }</style>
+
 # langgraph-info
 
 
@@ -14,7 +16,7 @@
 
 [![LangGraph How to](https://img.shields.io/badge/LangGraph-How_to-yellow?logo=langgraph)](https://langchain-ai.github.io/langgraph/how-tos/)
 
-[![LangGraph How to](https://img.shields.io/badge/LangGraph-Tutorials-pink?logo=langgraph)](https://langchain-ai.github.io/langgraph/tutorials/)
+[![LangGraph Tutorials](https://img.shields.io/badge/LangGraph-Tutorials-pink?logo=langgraph)](https://langchain-ai.github.io/langgraph/tutorials/)
 
 [![LangGraph Platform](https://img.shields.io/badge/LangGraph-Platform-orange?logo=langgraph)](https://langchain-ai.github.io/langgraph/concepts/#langgraph-platform)
 

@@ -3,12 +3,15 @@
 
 # Application Structure
 
+<br>
 
 ## Overview
 
 LangGraph 애플리케이션은 하나 이상의 그래프, LangGraph API 구성 파일(`langgraph.json`), 종속성 파일, 선택적으로 환경 변수를 지정하는 `.env` 파일로 구성됩니다.
 
 이 가이드는 LangGraph 애플리케이션의 전형적인 구조를 보여주며 LangGraph 플랫폼을 사용하여 LangGraph 애플리케이션을 배포하는 데 필요한 정보를 설정하는 방법을 설명합니다.
+
+<br>
 
 ## Key Concepts
 
@@ -19,6 +22,7 @@ LangGraph 플랫폼을 사용하여 배포하려면 다음 정보를 제공해�
 - 애플리케이션을 실행하는 데 필요한 [종속성](#dependencies) 파일입니다.
 - 애플리케이션 실행에 필요한 [환경 변수](#environment-variables)입니다.
 
+<br>
 
 ## File Structure
 
@@ -44,6 +48,7 @@ my-app/
 > **Note** \
 > LangGraph 애플리케이션의 디렉토리 구조는 사용하는 프로그래밍 언어와 패키지 관리자에 따라 달라질 수 있습니다.
 
+<br>
 
 ## Configuration File
 
@@ -85,6 +90,7 @@ my-app/
 }
 ```
 
+<br>
 
 ## Dependencies
 
@@ -96,6 +102,7 @@ LangGraph 애플리케이션은 다른 Python 패키지나 JavaScript 라이브�
 2. [LangGraph configuratino file](#configuration-file)내에 LangGraph 애플리케이션을 실행하는 데 필요한 종속성이 적힌 `dependencies` 키.
 3. 추가적인 바이너리 또는 시스템 라이브러리는 [LangGraph configuratino file](#configuration-file)내의 `dockerfile_lines` 키를 사용하여 지정 가능.
 
+<br>
 
 ## Graphs
 
@@ -104,6 +111,7 @@ LangGraph 애플리케이션은 다른 Python 패키지나 JavaScript 라이브�
 구성 파일에서 하나 이상의 그래프를 지정할 수 있습니다. 각 그래프는 이름(고유해야 함)과 다음 중 하나의 경로로 구분됩니다:
 (1) 컴파일된 그래프 또는 (2) 그래프를 생성하는 함수가 정의된 경로.
 
+<br>
 
 ## Environment Variables
 로컬에서 배포된 LangGraph 애플리케이션을 사용할 때, LangGraph 구성 파일의 `env` 키에 환경 변수를 구성할 수 있습니다.

@@ -5,6 +5,7 @@
 
 # LangGraph Glossary
 
+<br>
 
 ## Graphs
 
@@ -51,6 +52,7 @@ graph = graph_builder.compile(...)
 
 그래프를 사용하기 전에 반드시 그래프를 컴파일해야 합니다.
 
+<br>
 
 ## State
 
@@ -166,7 +168,7 @@ class State(TypedDict):
 
 많은 경우, 이전 대화 기록을 그래프 상태에 메시지 목록으로 저장하는 것이 유용합니다. 이를 위해, 메시지 객체 목록을 저장하는 키(채널)를 그래프 상태에 추가하고 리듀서 함수로 주석을 달 수 있습니다(아래 예시의 `messages` 키 참조). 리듀서 함수는 상태 업데이트마다 상태에서 메시지 객체 목록을 업데이트하는 방법을 그래프에 알려주는 데 중요합니다. 리듀서를 지정하지 않으면, 모든 상태 업데이트는 마지막에 제공된 값으로 메시지 목록을 덮어씁니다. 기존 목록에 메시지를 단순히 추가하려면 `operator.add`를 리듀서로 사용할 수 있습니다.
 
-그러나 그래프 상태에서 수동으로 메시지를 업데이트하고 싶을 수도 있습니다(예: 인간이 개입하는 경우). `operator.add`를 사용하면 수동 상태 업데이트가 기존 메시지 목록에 추가되기 때문에 기존 메시지를 업데이트하는 대신 새로운 메시지가 추가됩니다. 이를 피하기 위해, 메시지 ID를 추적하고 기존 메시지를 덮어쓸 수 있는 리듀서가 필요합니다. 이를 달성하기 위해, 미리 정의된 `add_messages` 함수를 사용할 수 있습니다. 새로운 메시지의 경우 기존 목록에 단순히 추가되지만, 기존 메시지에 대한 업데이트도 올바르게 처리합니다.
+그러나 그래프 상태에서 수동으로 메시지를 업데이트하고 싶을 수도 있습니다(예: 사람이 개입하는 경우). `operator.add`를 사용하면 수동 상태 업데이트가 기존 메시지 목록에 추가되기 때문에 기존 메시지를 업데이트하는 대신 새로운 메시지가 추가됩니다. 이를 피하기 위해, 메시지 ID를 추적하고 기존 메시지를 덮어쓸 수 있는 리듀서가 필요합니다. 이를 달성하기 위해, 미리 정의된 `add_messages` 함수를 사용할 수 있습니다. 새로운 메시지의 경우 기존 목록에 단순히 추가되지만, 기존 메시지에 대한 업데이트도 올바르게 처리합니다.
 
 **Serialization**
 
@@ -204,6 +206,7 @@ class State(MessagesState):
     documents: list[str]
 ```
 
+<br>
 
 ## Nodes
 
@@ -261,6 +264,7 @@ from langgraph.graph import END
 graph.add_edge("node_a", END)
 ```
 
+<br>
 
 ## Edges
 
@@ -333,6 +337,7 @@ graph.add_conditional_edges(START, routing_function)
 graph.add_conditional_edges(START, routing_function, {True: "node_b", False: "node_c"})
 ```
 
+<br>
 
 ## `Send`
 
@@ -361,6 +366,7 @@ graph.invoke({"subjects": ["cats", "dogs"]})
 # {'subjects': ['cats', 'dogs'], 'jokes': ['Joke about cats', 'Joke about dogs']}
 ```
 
+<br>
 
 ## `Command`
 
@@ -414,7 +420,7 @@ def my_node(state: State) -> Command[Literal["my_other_node"]]:
 > `graph`를 `Command.PARENT`로 설정하면 가장 가까운 상위 그래프로 이동합니다.
 
 > **Start updates with `Command.PARENT`**  
-> 서브그래프 노드에서 상위 그래프 노드로 상태 업데이트를 보낼 때, 서브그래프와 상위 그래프 상태 스키마에 공유 키가 있다면, 상위 그래프 상태에서 해당 키에 대한 리듀서를 정의해야 합니다. 자세한 예시는 [이 가이드](../how_to/how_to_combine_control_flow_and_state_updates_with_command.md#navigating-to-a-node-in-a-parent-graph)를 참조하십시오.
+> 서브그래프 노드에서 상위 그래프 노드로 상태 업데이트를 보낼 때, 서브그래프와 상위 그래프 상태 스키마에 공유 키가 있다면, 상위 그래프 상태에서 해당 키에 대한 리듀서를 정의해야 합니다. 자세한 예시는 [이 가이드](../how_to/how_to_combine_control_flow_and_state_updates_with_command.md#navigating-to-a-node-in-a-parent-graph)를 참조하세요.
 
 이 기능은 특히 [multi-agent handoffs](./multi_agent_systems.md#handoffs)를 구현할 때 유용합니다.
 
@@ -442,4 +448,226 @@ def lookup_user_info(tool_call_id: Annotated[str, InjectedToolCallId], config: R
 > 도구에서 Command를 반환할 때는 메시지 기록에 사용하는 상태 키(예: messages)를 반드시 포함해야 하며, 메시지 리스트에는 반드시 ToolMessage가 포함되어야 합니다. 이는 메시지 기록이 유효하도록 하기 위함입니다(LLM 제공자는 도구 호출 후 AI 메시지에 도구 결과 메시지가 이어져야 합니다).
 
 `Command`를 통해 상태를 업데이트하는 도구를 사용하는 경우, LangGraph에서 제공하는 미리 제작된 ToolNode를 사용하는 것이 좋습니다. 이는 도구가 반환한 Command 객체를 자동으로 처리하고 그래프 상태에 반영합니다. 만약 사용자 정의 노드에서 도구를 호출한다면, 도구가 반환한 Command 객체를 수동으로 처리하여 업데이트해야 합니다.
+
+
+### Human-in-the-loop
+
+`Command`는 human-in-the-loop 워크플로우에서 중요한 역할을 합니다. `interrupt()`를 사용하여 사용자 입력을 받을 때, `Command`는 입력을 제공하고 `Command(resume="User input")`를 통해 실행을 재개하는 데 사용됩니다. 자세한 내용은 [이 가이드](./human_in_the_loop.md)를 확인하세요.
+
+<br>
+
+## Persistence
+
+LangGraph는 [체크포인터](https://langchain-ai.github.io/langgraph/reference/checkpoints/#langgraph.checkpoint.base.BaseCheckpointSaver)를 사용하여 에이전트의 상태에 대한 내장된 영속성을 제공합니다. 체크포인터는 그래프 상태의 스냅샷을 각 슈퍼스텝마다 저장하여 언제든지 재개할 수 있도록 합니다. 이를 통해 human-in-the-loop 상호작용, 메모리 관리, 내결함성과 같은 기능이 가능해집니다. 그래프 실행 후에도 적절한 get 및 update 메서드를 사용하여 그래프 상태를 직접 조작할 수 있습니다. 자세한 내용은 [이 가이드](./persistence.md)를 참조하세요.
+
+<br>
+
+## Threads
+
+LangGraph에서 스레드는 그래프와 사용자 간의 개별 세션 또는 대화를 나타냅니다. 체크포인팅을 사용할 때, 단일 대화의 턴(심지어 단일 그래프 실행 내의 단계)도 고유한 스레드 ID로 정리됩니다.
+
+<br>
+
+## Storage
+
+LangGraph는 BaseStore 인터페이스를 통해 내장된 문서 저장소를 제공합니다. 체크포인터가 스레드 ID에 따라 상태를 저장하는 것과 달리, 저장소는 데이터를 조직하기 위해 사용자 정의 네임스페이스를 사용합니다. 이를 통해 크로스 스레드 영속성이 가능해져 에이전트가 장기적인 기억을 유지하고, 과거 상호작용에서 학습하며, 시간이 지남에 따라 지식을 축적할 수 있습니다. 일반적인 사용 사례로는 사용자 프로필 저장, 지식 기반 구축 및 모든 스레드에서의 전역 설정 관리 등이 포함됩니다.
+
+<br>
+
+## Graph Migrations
+
+이해가 안되서 패스~
+
+<br>
+
+## Configuration
+
+그래프를 생성할 때 특정 부분을 설정 가능하게(configurable) 표시할 수도 있습니다. 이는 모델이나 시스템 프롬프트를 쉽게 변경할 수 있게 합니다. 이를 통해 단일 "cognitive architecutre"(그래프)를 생성하면서도 여러 인스턴스를 가질 수 있습니다. 
+
+그래프를 생성할 때 `config_schema`를 선택적으로 지정할 수 있습니다.
+
+```python
+class ConfigSchema(TypedDict):
+    llm: str
+
+graph = StateGraph(State, config_schema=ConfigSchema)
+```
+
+그런 다음 설정 가능(configurable) 필드를 사용하여 설정을 그래프에 전달할 수 있습니다.
+
+```python
+config = {"configurable": {"llm": "anthropic"}}
+graph.invoke(inputs, config=config)
+```
+
+그런 다음 노드 내부에서 이 설정을 액세스하고 사용할 수 있습니다:
+
+```python
+def node_a(state, config):
+    llm_type = config.get("configurable", {}).get("llm", "openai")
+    llm = get_llm(llm_type)
+    ...
+```
+
+configuration에 대한 전체 설명은 [이 가이드](../how_to/how_to_add_runtime_configuration_to_your_graph.md)를 참조하세요.
+
+
+### Recursion Limit
+
+Recursion limit은 그래프가 단일 실행 중에 실행할 수 있는 최대 [슈퍼 스텝(super-step)](#graphs) 수를 설정합니다. 이 한도에 도달하면 LangGraph는 `GraphRecursionError`를 발생시킵니다. 기본적으로 이 값은 25 스텝으로 설정되어 있습니다. Recusion limit은 실행 시 어떤 그래프에서든 설정할 수 있으며, config 딕셔너리를 통해 `.invoke/.stream`에 전달됩니다. 중요한 점은, recursion_limit은 독립적인 설정 키이며, 다른 사용자 정의 구성과 같이 configurable 키 내부에 포함되어서는 안 됩니다. 아래 예제를 참고하세요:
+
+```python
+graph.invoke(inputs, config={"recursion_limit": 5, "configurable":{"llm": "anthropic"}})
+```
+
+Recursion limit이 어떻게 작동하는지 더 자세히 알아보려면 [이 가이드](../how_to/how_to_create_and_control_loops.md)를 참고하세요.
+
+<br>
+
+## `Interrupt`
+
+특정 지점에서 그래프를 일시 중지하고 사용자 입력을 받으려면 [interrupt](https://langchain-ai.github.io/langgraph/reference/types/#langgraph.types.interrupt) 함수를 사용하세요.  
+`interrupt` 함수는 클라이언트에 인터럽트 정보를 노출하여, 사용자 입력을 받거나 개발자가 그래프 상태를 검증하거나 실행을 재개하기 전에 결정을 내릴 수 있도록 합니다.
+
+```python
+from langgraph.types import interrupt
+
+def human_approval_node(state: State):
+    ...
+    answer = interrupt(
+        # 이 값은 클라이언트로 전송됩니다.
+        # JSON으로 직렬화할 수 있는 값이면 무엇이든 가능합니다.
+        {"question": "is it ok to continue?"},
+    )
+    ...
+```
+API Reference: interrupt
+
+그래프를 다시 실행하려면, `Command` 객체를 그래프에 전달하면서 `resume` 키를 `interrupt` 함수가 반환한 값으로 설정하면 됩니다.
+
+`interrupt`가 human-in-the-loop workflows 에서 어떻게 사용되는지에 대한 자세한 내용은 [이 가이드](./human_in_the_loop.md)를 참고하세요.
+
+<br>
+
+## Breakpoints
+
+중단점은 특정 지점에서 그래프 실행을 일시 중지하고 단계별로 실행을 진행할 수 있게 합니다. 중단점은 LangGraph의 [영속성 계층](./persistence.md)에 의해 지원되며, 각 그래프 단계 후 상태를 저장합니다. 중단점은 [human-in-the-loop](./human_in_the_loop.md) 워크플로우를 가능하게 할 수도 있지만, 이 목적을 위해서는 [`interrupt` 함수](#persistence)를 사용하는 것이 좋습니다.
+
+중단점에 대한 자세한 내용은 [이 가이드](./breakpoints.md)를 참조하세요.
+
+<br>
+
+## Subgraphs
+
+서브그래프는 다른 그래프에서 [노드](#nodes)로 사용되는 [그래프](#graphs)입니다. 이는 캡슐화의 오래된 개념과 동일합니다. 서브그래프를 사용하는 이유는 다음과 같습니다:
+
+- 다중 에이전트 시스템 구축
+- 여러 그래프에서 상태를 공유할 수 있는 노드를 재사용하고자 할 때, 서브그래프에서 한 번 정의한 후 여러 상위 그래프에서 사용할 수 있습니다.
+- 그래프의 서로 다른 부분을 독립적으로 작업하고자 하는 팀이 있을 때, 각 부분을 서브그래프로 정의하고 서브그래프 인터페이스(입력 및 출력 스키마)가 준수된다면, 세부 사항을 서로 알 필요 없이 상위 그래프를 구성할 수 있습니다.
+
+서브그래프를 상위 그래프에 추가하는 방법은 두 가지가 있습니다:
+
+* **컴파일된 서브그래프**를 사용하여 노드 추가: 상위 그래프와 서브그래프가 상태 키를 공유하고 들어오거나 나가는 상태를 변환할 필요가 없는 경우에 유용합니다.
+
+```python
+builder.add_node("subgraph", subgraph_builder.compile())
+```
+
+* **서브그래프를 호출하는 함수**를 사용하여 노드 추가: 상위 그래프와 서브그래프가 서로 다른 상태 스키마를 가지고 있고, 서브그래프 호출 전후에 상태를 변환해야 하는 경우에 유용합니다.
+
+```python
+subgraph = subgraph_builder.compile()
+
+def call_subgraph(state: State):
+    return subgraph.invoke({"subgraph_key": state["parent_key"]})
+
+builder.add_node("subgraph", call_subgraph)
+```
+
+각 방법의 예를 살펴보겠습니다.
+
+
+###  As a compiled graph
+서브그래프 노드를 생성하는 가장 간단한 방법은 [컴파일된 서브그래프](#compiling-your-graph)를 사용하는 것입니다. 이 경우 상위 그래프와 서브그래프 상태 스키마가 통신(communicate) 할 수 있는 최소한 하나의 [키](#state)를 서로 가지고 있는 것이 중요합니다. 그래프와 서브그래프가 어떤 키도 공유하지 않는다면 [서브그래프를 호출하는 함수](#as-a-function)를 사용해야 합니다.
+
+> **Note**  
+> 서브그래프 노드에 추가 키(공유 키 외)를 전달하면 서브그래프 노드에서 무시됩니다. 마찬가지로 서브그래프에서 추가 키를 반환하면 상위 그래프에서 무시됩니다.
+
+```python
+from langgraph.graph import StateGraph
+from typing import TypedDict
+
+class State(TypedDict):
+    foo: str
+
+class SubgraphState(TypedDict):
+    foo: str  # 상위 그래프 상태와 공유되는 이 키에 주목하세요.
+    bar: str
+
+# 서브그래프 정의
+def subgraph_node(state: SubgraphState):
+    # 이 서브그래프 노드는 공유된 "foo" 키를 통해 상위 그래프와 통신할 수 있습니다.
+    return {"foo": state["foo"] + "bar"}
+
+subgraph_builder = StateGraph(SubgraphState)
+subgraph_builder.add_node(subgraph_node)
+...
+subgraph = subgraph_builder.compile()
+
+# 상위 그래프 정의
+builder = StateGraph(State)
+builder.add_node("subgraph", subgraph)
+...
+graph = builder.compile()
+```
+
+API 참조: [StateGraph](https://langchain-ai.github.io/langgraph/reference/graphs/#langgraph.graph.state.StateGraph)
+
+
+### As a function
+
+상위 그래프와 완전히 다른 스키마를 사용하는 서브그래프를 정의 할 수 있습니다. 이 경우 서브그래프를 호출하는 노드 함수를 사용해야 합니다. 이 노드(함수)에서는 서브그래프를 호출하기 전에 입력(상위) 상태를 서브그래프 상태로 [변환](../how_to/how_to_transform_inputs_and_outputs_of_a_subgraph.md)하고, 서브그래프 호출 후 결과를 상위 상태로 변환하여 상태 업데이트를 반환해야 합니다.
+
+```python
+class State(TypedDict):
+    foo: str
+
+class SubgraphState(TypedDict):
+    # 이 키들은 상위 그래프 상태와 공유되지 않음을 주목하세요.
+    bar: str
+    baz: str
+
+# 서브그래프 정의
+def subgraph_node(state: SubgraphState):
+    return {"bar": state["bar"] + "baz"}
+
+subgraph_builder = StateGraph(SubgraphState)
+subgraph_builder.add_node(subgraph_node)
+...
+subgraph = subgraph_builder.compile()
+
+# 상위 그래프 정의
+def node(state: State):
+    # 상위 상태를 서브그래프 상태로 변환
+    response = subgraph.invoke({"bar": state["foo"]})
+    # 응답을 상위 상태로 변환
+    return {"foo": response["bar"]}
+
+builder = StateGraph(State)
+# 컴파일된 서브그래프 대신 `node` 함수를 사용함에 유의하세요.
+builder.add_node(node)
+...
+graph = builder.compile()
+```
+
+<br>
+
+## Visualization
+
+그래프가 더 복잡해질수록 시각화 기능은 유용합니다. LangGraph는 그래프를 시각화할 수 있는 여러가지  방법을 제공합니다. 자세한 내용은 [이 가이드](../how_to/how_to_visualize_your_graph.md)를 참조하십시오.
+
+<br>
+
+## Streaming
+LangGraph는 실행 중인 그래프 노드의 업데이트나 LLM 호출 시 토큰 등을 포함한 스트리밍을 최우선으로 지원합니다. 자세한 내용은 [이 가이드](./streaming.md)를 참조하십시오.
 

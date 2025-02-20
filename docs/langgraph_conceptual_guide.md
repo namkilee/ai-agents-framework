@@ -9,6 +9,7 @@
 
 개념 가이드는 단계별 지침이나 특정 구현 예제를 다루지 않습니다 — 이러한 내용은 튜토리얼 및 How-to 가이드에 있습니다. 자세한 참고 자료는 API 참조를 확인하세요.
 
+<br>
 
 ## LangGraph
 
@@ -32,6 +33,7 @@
 - [Functional API(beta)](./functional_api.md): LangGraph에서 개발을 위한 Graph API(StateGraph)의 대안입니다.
 - [FAQ](https://langchain-ai.github.io/langgraph/concepts/faq/): LangGraph에 대한 자주 묻는 질문입니다.
 
+<br>
 
 ## LangGraph Platform
 

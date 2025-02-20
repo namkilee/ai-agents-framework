@@ -5,6 +5,7 @@
 
 # Memory
 
+<br>
 
 ## What is Memory?
 
@@ -18,6 +19,7 @@
 
 ![short_vs_long](../asset/short-vs-long.png)
 
+<br>
 
 ## Short-term memory
 
@@ -173,6 +175,7 @@ trim_messages(
 ```
 API Reference: trim_messages
 
+<br>
 
 ## Long-term mermory
 
@@ -224,6 +227,7 @@ items = store.search(namespace, filter={"my-key": "my-value"}, query="language p
 
 메모리는 에이전트의 애플리케이션 로직의 일부로 업데이트될 수 있습니다(예: "핫 패스"에서). 이 경우, 에이전트는 일반적으로 사용자에게 응답하기 전에 사실을 기억하도록 결정합니다. 또는 메모리는 백그라운드 작업(백그라운드에서 비동기로 실행되며 메모리를 생성하는 로직)으로 업데이트될 수도 있습니다. 이러한 접근 방식 간의 트레이드오프는 [아래 섹션](#writing-memories)에서 설명합니다.
 
+<br>
 
 ## Memory types
 
