@@ -1,4 +1,4 @@
-[![Anthropic Research](https://img.shields.io/badge/Anthroopic-Research-purple?logo=anthropic)](https://www.anthropic.com/research/building-effective-agents)
+[![Anthropic Research](https://img.shields.io/badge/Anthropic-Research-purple?logo=anthropic)](https://www.anthropic.com/research/building-effective-agents)
 
 
 # Building effective agents
