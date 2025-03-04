@@ -9,13 +9,13 @@
 
 LangGraph 애플리케이션은 하나 이상의 그래프, LangGraph API 구성 파일(`langgraph.json`), 종속성 파일, 선택적으로 환경 변수를 지정하는 `.env` 파일로 구성됩니다.
 
-이 가이드는 LangGraph 애플리케이션의 전형적인 구조를 보여주며 LangGraph 플랫폼을 사용하여 LangGraph 애플리케이션을 배포하는 데 필요한 정보를 설정하는 방법을 설명합니다.
+이 가이드는 LangGraph 애플리케이션의 전형적인 구조를 보여주며 LangGraph Platform을 사용하여 LangGraph 애플리케이션을 배포하는 데 필요한 정보를 설정하는 방법을 설명합니다.
 
 <br>
 
 ## Key Concepts
 
-LangGraph 플랫폼을 사용하여 배포하려면 다음 정보를 제공해야 합니다:
+LangGraph Platform을 사용하여 배포하려면 다음 정보를 제공해야 합니다:
 
 - [LangGraph API 설정 파일](#configuration-file) (`langgraph.json`)은 애플리케이션에 사용할 종속성, 그래프, 환경 변수를 지정합니다.
 - [그래프](#graphs)는 애플리케이션의 로직을 구현합니다.

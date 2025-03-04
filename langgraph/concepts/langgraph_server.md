@@ -13,7 +13,7 @@ LangGraph Server는 에이전트 기반 애플리케이션을 생성하고 관�
 
 ## Key Features
 
-LangGraph 플랫폼은 에이전트 배포를 위한 검증된 방법론과 도구를 제공하여(incorporates best practices), 사용자가 에이전트 로직 개발에 집중할 수 있도록 지원합니다
+LangGraph Platform은 에이전트 배포를 위한 검증된 방법론과 도구를 제공하여(incorporates best practices), 사용자가 에이전트 로직 개발에 집중할 수 있도록 지원합니다
 
 - **Streaming endpoints**: [다양한 스트리밍 모드](./streaming.md)를 지원하는 엔드포인트입니다. 특히, 스트림 이벤트 간에 몇 분씩 간격이 생길 수 있는 장시간 실행되는 에이전트에서도 문제없이 작동하도록 설계되었습니다.
 

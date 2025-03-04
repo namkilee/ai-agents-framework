@@ -37,20 +37,20 @@
 
 ## LangGraph Platform
 
-LangGraph 플랫폼은 오픈 소스 LangGraph 프레임워크를 기반으로 구축된, production 환경에서 에이전트 애플리케이션을 배포하기 위한 **상업적 솔루션**입니다.
+LangGraph Platform은 오픈 소스 LangGraph 프레임워크를 기반으로 구축된, production 환경에서 에이전트 애플리케이션을 배포하기 위한 **상업적 솔루션**입니다.
 
-LangGraph 플랫폼의 몇 가지 다른 배포 옵션은 [이 가이드](./deployment_options.md)에서 설명합니다.
+LangGraph Platform의 몇 가지 다른 배포 옵션은 [이 가이드](./deployment_options.md)에서 설명합니다.
 
 > **Tip**
 > - LangGraph는 MIT 라이선스가 적용된 오픈 소스 라이브러리로, 커뮤니티를 위해 이를 유지하고 성장시키는 데 전념하고 있습니다.
-> - LangGraph 플랫폼을 사용하지 않고도 오픈 소스 LangGraph 프로젝트를 사용하여 자신의 인프라에 LangGraph 애플리케이션을 배포할 수 있습니다.
+> - LangGraph Platform을 사용하지 않고도 오픈 소스 LangGraph 프로젝트를 사용하여 자신의 인프라에 LangGraph 애플리케이션을 배포할 수 있습니다.
 
 
 ### High Level
 
-- [Why LangGraph Platform?](./langgraph_platform.md): LangGraph 플랫폼은 LangGraph 애플리케이션을 배포하고 관리하기 위한 명확한 방식(opinionated way)을 제공합니다. 이 가이드는 LangGraph 플랫폼의 주요 기능과 개념에 대한 개요를 제공합니다.
-- [Deployment Options](./deployment_options.md): LangGraph 플랫폼은 네 가지 배포 옵션을 제공합니다: Self-Hosted Lite, Self-Hosted Enterprise, bring your own cloud(BYOC), Cloud SaaS. 여기에서는 이러한 옵션들 간의 차이점과 각 플랜에서 사용 가능한 옵션을 설명합니다.
-- Plan: LangGraph 플랫폼은 세 가지 다른 플랜을 제공합니다: Developer, Plus, Enterprise. 이 가이드는 이러한 옵션들 간의 차이점과 각 플랜에서 사용할 수 있는 배포 옵션, 가입 방법을 설명합니다.
+- [Why LangGraph Platform?](./langgraph_platform.md): LangGraph Platform은 LangGraph 애플리케이션을 배포하고 관리하기 위한 명확한 방식(opinionated way)을 제공합니다. 이 가이드는 LangGraph Platform의 주요 기능과 개념에 대한 개요를 제공합니다.
+- [Deployment Options](./deployment_options.md): LangGraph Platform은 네 가지 배포 옵션을 제공합니다: Self-Hosted Lite, Self-Hosted Enterprise, bring your own cloud(BYOC), Cloud SaaS. 여기에서는 이러한 옵션들 간의 차이점과 각 플랜에서 사용 가능한 옵션을 설명합니다.
+- Plan: LangGraph Platform은 세 가지 다른 플랜을 제공합니다: Developer, Plus, Enterprise. 이 가이드는 이러한 옵션들 간의 차이점과 각 플랜에서 사용할 수 있는 배포 옵션, 가입 방법을 설명합니다.
 - Template Applications: LangGraph를 사용하여 애플리케이션을 신속하게 구축하는 데 도움이 되는 참고 애플리케이션입니다.
 
 
@@ -72,12 +72,12 @@ LangGraph Platform은 LangGraph 애플리케이션의 배포 및 관리를 지�
 - [Web-hooks](./langgraph_server.md#webhooks): 웹훅은 실행 중인 LangGraph 애플리케이션이 특정 이벤트 시 외부 서비스에 데이터를 전송할 수 있게 합니다.
 - [Cron Jobs](./langgraph_server.md#cron-jobs): 크론 작업은 LangGraph 애플리케이션에서 특정 시간에 작업을 예약하여 실행하는 방법입니다.
 - [Double Texting](./double_texting.md): 이중 메시지는 그래프가 완료되기 전에 사용자가 여러 메시지를 보낼 때 LLM 애플리케이션에서 흔히 발생하는 문제입니다. 이 가이드는 LangGraph Deploy를 사용하여 이중 메시지를 처리하는 방법을 설명합니다.
-- [Authentication & Access Control](./authentication_and_access_control.md): LangGraph 플랫폼을 배포할 때 인증 및 접근 제어 옵션에 대해 배울 수 있습니다.
+- [Authentication & Access Control](./authentication_and_access_control.md): LangGraph Platform을 배포할 때 인증 및 접근 제어 옵션에 대해 배울 수 있습니다.
 
 
 ### Deployment Options
 
-- Self-Hosted Lite: 연간 최대 100만 노드 실행까지 무료로 사용할 수 있는 제한된 버전의 LangGraph 플랫폼으로, 로컬 또는 셀프 호스팅 방식으로 실행할 수 있습니다.
+- Self-Hosted Lite: 연간 최대 100만 노드 실행까지 무료로 사용할 수 있는 제한된 버전의 LangGraph Platform으로, 로컬 또는 셀프 호스팅 방식으로 실행할 수 있습니다.
 - Cloud SaaS: LangSmith의 일부로 호스팅됩니다.
 - Bring Your Own Cloud: 인프라 관리를 저희가 하지만, 모든 인프라는 사용자의 클라우드에서 실행됩니다.
 - Self-Hosted Enterprise: 완전히 사용자가 관리합니다.

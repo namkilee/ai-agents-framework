@@ -45,7 +45,7 @@ graph.stream(..., stream_mode=["updates", "messages"])
 
 ## LangGraph Platform
 
-스트리밍은 LLM 애플리케이션이 최종 사용자에게 반응형으로 느껴지도록 만드는 데 매우 중요합니다. 스트리밍 실행을 생성할 때, 스트리밍 모드는 API 클라이언트로 어떤 데이터가 스트리밍될지를 결정합니다. LangGraph 플랫폼은 다음의 다섯 가지 스트리밍 모드를 지원합니다:
+스트리밍은 LLM 애플리케이션이 최종 사용자에게 반응형으로 느껴지도록 만드는 데 매우 중요합니다. 스트리밍 실행을 생성할 때, 스트리밍 모드는 API 클라이언트로 어떤 데이터가 스트리밍될지를 결정합니다. LangGraph Platform은 다음의 다섯 가지 스트리밍 모드를 지원합니다:
 
 - `values`: 각 슈퍼 스텝(super-step)이 실행된 후 그래프의 전체 상태를 스트리밍합니다. 값 스트리밍에 대한 자세한 내용은 [이 가이드](../how_to/how_to_stream_full_state_of_your_graph.md)를 참고하세요.
 - `messages-tuple`: 노드 내부에서 생성된 메시지의 LLM 토큰을 스트리밍합니다. 이 모드는 주로 채팅 애플리케이션을 구동하는 데 사용됩니다. 메시지 스트리밍에 대한 자세한 내용은 [이 가이드](../how_to/how_to_stream_messages_from_your_graph.md)를 참고하세요.

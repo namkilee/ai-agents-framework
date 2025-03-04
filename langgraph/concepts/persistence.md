@@ -458,7 +458,7 @@ for update in graph.stream(
     print(update)
 ```
 
-LangGraph 플랫폼(예: LangGraph Studio 또는 LangGraph Cloud)을 사용할 때 기본 저장소는 기본적으로 사용할 수 있으며 그래프 컴파일 시 명시할 필요가 없습니다. 그러나 의미론적 검색을 사용하려면 langgraph.json 파일에서 인덱싱 설정을 구성해야 합니다. 예를 들어:
+LangGraph Platform(예: LangGraph Studio 또는 LangGraph Cloud)을 사용할 때 기본 저장소는 기본적으로 사용할 수 있으며 그래프 컴파일 시 명시할 필요가 없습니다. 그러나 의미론적 검색을 사용하려면 langgraph.json 파일에서 인덱싱 설정을 구성해야 합니다. 예를 들어:
 
 ```json
 {

@@ -1,7 +1,7 @@
 [![LangGraph Conceptual](https://img.shields.io/badge/LangGraph-Conceptual-blue?logo=langgraph)](https://langchain-ai.github.io/langgraph/concepts/platform_architecture/)
 
 
-# LangGraph Platfrom Architecture
+# LangGraph Platform Architecture
 
 ![langgraph_platform_architecture](../asset/langgraph_platform_deployment_architecture.png)
 
