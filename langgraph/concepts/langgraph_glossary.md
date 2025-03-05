@@ -161,17 +161,17 @@ class State(TypedDict):
 
 ### Working with Messages in Graph State
 
-**Why use messages?**
+#### Why use messages?
 
 대부분의 최신 LLM 제공업체는 입력으로 메시지 목록을 수락하는 채팅 모델 인터페이스를 제공합니다. 특히 LangChain의 `ChatModel`은 입력으로 메시지 객체의 목록을 수락합니다. 이러한 메시지는 `HumanMessage`(사용자 입력)나 `AIMessage`(LLM 응답)와 같은 다양한 형태로 제공됩니다. 메시지 객체에 대한 자세한 내용은 [이 개념 가이드](https://langchain-ai.github.io/langgraph/concepts/low_level/#default-reducer)를 참조하세요.
 
-**Using Messages in your Graph**
+#### Using Messages in your Graph
 
 많은 경우, 이전 대화 기록을 그래프 상태에 메시지 목록으로 저장하는 것이 유용합니다. 이를 위해, 메시지 객체 목록을 저장하는 키(채널)를 그래프 상태에 추가하고 리듀서 함수로 주석을 달 수 있습니다(아래 예시의 `messages` 키 참조). 리듀서 함수는 상태 업데이트마다 상태에서 메시지 객체 목록을 업데이트하는 방법을 그래프에 알려주는 데 중요합니다. 리듀서를 지정하지 않으면, 모든 상태 업데이트는 마지막에 제공된 값으로 메시지 목록을 덮어씁니다. 기존 목록에 메시지를 단순히 추가하려면 `operator.add`를 리듀서로 사용할 수 있습니다.
 
 그러나 그래프 상태에서 수동으로 메시지를 업데이트하고 싶을 수도 있습니다(예: 사람이 개입하는 경우). `operator.add`를 사용하면 수동 상태 업데이트가 기존 메시지 목록에 추가되기 때문에 기존 메시지를 업데이트하는 대신 새로운 메시지가 추가됩니다. 이를 피하기 위해, 메시지 ID를 추적하고 기존 메시지를 덮어쓸 수 있는 리듀서가 필요합니다. 이를 달성하기 위해, 미리 정의된 `add_messages` 함수를 사용할 수 있습니다. 새로운 메시지의 경우 기존 목록에 단순히 추가되지만, 기존 메시지에 대한 업데이트도 올바르게 처리합니다.
 
-**Serialization**
+#### Serialization
 
 메시지 ID를 추적하는 것 외에도, `add_messages` 함수는 메시지 채널에서 상태 업데이트를 받을 때마다 메시지를 LangChain 메시지 객체로 역직렬화하려고 시도합니다. LangChain의 직렬화/역직렬화에 대한 자세한 내용은 [여기](https://langchain-ai.github.io/langgraph/concepts/low_level/#default-reducer)에서 확인할 수 있습니다. 이를 통해 그래프 입력 / 상태 업데이트를 다음과 같은 형식으로 보낼 수 있습니다:
 
@@ -196,7 +196,7 @@ class GraphState(TypedDict):
     messages: Annotated[list[AnyMessage], add_messages]
 ```
 
-**MessagesState**
+#### MessagesState
 
 상태에 메시지 목록을 두는 것이 매우 일반적이기 때문에, 메시지를 쉽게 사용할 수 있도록 하는 사전 정의된 상태인 `MessagesState`가 존재합니다. `MessagesState`는 `AnyMessage` 객체 목록인 단일 `messages` 키로 정의되며 `add_messages` 리듀서를 사용합니다. 일반적으로 추적해야 할 상태는 메시지 외에도 더 많기 때문에, 사람들이 이 상태를 서브클래싱하여 더 많은 필드를 추가하는 경우가 있습니다:
 
