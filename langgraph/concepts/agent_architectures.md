@@ -30,7 +30,7 @@ LLM(대규모 언어 모델)에서 구조화된 출력은 응답 시 따라야 �
 - **Output parsers**: LLM 응답에서 구조화된 데이터를 추출하기 위해 후처리를 사용합니다.
 - **Tool calling**: 일부 LLM의 내장 도구 호출 기능을 활용하여 구조화된 출력을 생성합니다.
 
-구조화된 출력은 라우팅에 필수적입니다. 이는 LLM의 결정을 시스템이 신뢰할 수 있게 해석하고 실행할 수 있도록 보장하기 때문입니다. 구조화된 출력에 대해 더 자세히 알아보려면 [이 방법 가이드](https://langchain-ai.github.io/langgraph/concepts/low_level/#default-reducer)를 참조하세요.
+구조화된 출력은 라우팅에 필수적입니다. 이는 LLM의 결정을 시스템이 신뢰할 수 있게 해석하고 실행할 수 있도록 보장하기 때문입니다. 구조화된 출력에 대해 더 자세히 알아보려면 [이 방법 가이드](https://python.langchain.com/docs/how_to/structured_output/)를 참조하세요.
 
 <br>
 
